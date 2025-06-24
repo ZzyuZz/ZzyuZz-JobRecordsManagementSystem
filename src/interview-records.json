@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "company": "Tech Corp",
+    "date": "2025-06-15",
+    "position": "Frontend Developer"
+  },
+  {
+    "id": 2,
+    "company": "DataSoft",
+    "date": "2025-06-20",
+    "position": "Backend Engineer"
+  }
+]
