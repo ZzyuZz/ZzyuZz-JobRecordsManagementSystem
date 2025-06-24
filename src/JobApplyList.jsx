@@ -16,7 +16,7 @@ function JobApplyList() {
   const [interviewForm, setInterviewForm] = useState({ date: '', time: '', location: '' });
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/jobs')
+    fetch('/api/jobs')
       .then(res => res.json())
       .then(data => {
         setJobs(data);
@@ -33,7 +33,7 @@ function JobApplyList() {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     if (form.title && form.company) {
-      fetch('http://localhost:3001/api/jobs', {
+      fetch('/api/jobs', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
@@ -49,7 +49,7 @@ function JobApplyList() {
 
   const handleDelete = (id) => {
     if (!window.confirm('Are you sure you want to delete this record?')) return;
-    fetch(`http://localhost:3001/api/jobs/${id}`, { method: 'DELETE' })
+    fetch(`/api/jobs/${id}`, { method: 'DELETE' })
       .then(res => res.json())
       .then(() => {
         setJobs(jobs.filter((job) => job.id !== id));
@@ -69,7 +69,7 @@ function JobApplyList() {
       date: interviewForm.date + (interviewForm.time ? ' ' + interviewForm.time : ''),
       location: interviewForm.location
     };
-    fetch('http://localhost:3001/api/interviews', {
+    fetch('/api/interviews', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(interviewData)

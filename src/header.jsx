@@ -12,7 +12,10 @@ function Header({ currentPage, onChangePage }) {
         <span className="navbar-brand d-flex align-items-center" style={{ cursor: 'pointer' }} onClick={() => onChangePage('jobs')}>
           <span style={{ fontSize: 22, fontWeight: 700, letterSpacing: 1 }}>My Job Apply</span>
         </span>
-        <div className="collapse navbar-collapse">
+        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="mainNavbar">
           <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
             {navItems.map((item) => (
               <li className="nav-item" key={item.key}>

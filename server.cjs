@@ -51,7 +51,7 @@ app.delete('/api/interviews/:id', (req, res) => {
 app.get('/api/jobs', (req, res) => {
   fs.readFile(JOBS_DATA_PATH, 'utf-8', (err, data) => {
     if (err) return res.status(500).json({ error: 'Read error' });
-    console.log('job-records.json內容:', data); // debug log
+    // console.log('job-records.json:', data); // debug log
     try {
       const jobs = JSON.parse(data);
       res.json(jobs);
@@ -90,6 +90,6 @@ app.delete('/api/jobs/:id', (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`Interview API server running on http://localhost:${PORT}`);
+app.listen(PORT,'0.0.0.0', () => {
+  // console.log(`Interview API server running on http://localhost:${PORT}`);
 });

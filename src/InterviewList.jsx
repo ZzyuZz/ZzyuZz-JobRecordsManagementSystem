@@ -7,7 +7,7 @@ function InterviewList() {
   const [detailInterview, setDetailInterview] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/interviews')
+    fetch('/api/interviews')
       .then(res => res.json())
       .then(data => {
         setInterviews(data);
@@ -17,7 +17,7 @@ function InterviewList() {
 
   const handleDelete = (id) => {
     if (!window.confirm('Are you sure you want to delete this record?')) return;
-    fetch(`http://localhost:3001/api/interviews/${id}`, { method: 'DELETE' })
+    fetch(`/api/interviews/${id}`, { method: 'DELETE' })
       .then(res => res.json())
       .then(() => {
         setInterviews(interviews.filter((item) => item.id !== id));
