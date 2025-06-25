@@ -17,8 +17,14 @@ function JobCalendarSidebar() {
   }, []);
 
   // Helper to check if a date has an interview
+  const getLocalDateString = (date) => {
+    const y = date.getFullYear();
+    const m = (date.getMonth() + 1).toString().padStart(2, '0');
+    const d = date.getDate().toString().padStart(2, '0');
+    return `${y}-${m}-${d}`;
+  };
   const hasInterview = (date) => {
-    const yyyyMMdd = date.toISOString().split('T')[0];
+    const yyyyMMdd = getLocalDateString(date);
     return interviewDates.includes(yyyyMMdd);
   };
 

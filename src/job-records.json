@@ -1,14 +1,37 @@
 [
   {
-    "id": 1,
-    "title": "Frontend Developer",
-    "company": "Tech Corp",
-    "date": "2025-06-01"
+    "title": "Programmer ",
+    "company": "Sik Sik Yuen",
+    "mssage": "Job Requirements: \n\n  Holder of Higher Diploma or higher accreditation in IT or related disciplines, demonstrating a strong foundation in software development principles.\n\n  At least 1 year of relevant working experience, with a track record of successful project delivery\n\n  Hands on development experience in Java, PHP, Python, React, RDBMS (MSSQL / MySQL)\n\n  Eager to learn new technologies including Dynamic 365, AI Cloud, PowerBI and Power Apps",
+    "id": 1750838143632,
+    "date": "2025-06-25"
   },
   {
-    "id": 2,
-    "title": "Backend Engineer",
-    "company": "DataSoft",
-    "date": "2025-06-10"
+    "title": "Java Programmer ",
+    "company": "Speedy Group Corp. Limited",
+    "mssage": "Degree holder or above in Computing/ Information Technology or related discipline\nHands on experience in Java programming development\nExperience in Java Application Framework\nExperience / knowledge in Agile, CI/CD methodologies will be advantage \nCandidates with less experience / Fresh Graduates are also welcome to apply for Junior Programmers ",
+    "id": 1750838231115,
+    "date": "2025-06-25"
+  },
+  {
+    "title": "IT Administrator",
+    "company": "Yew Chung Education Foundation Limited",
+    "mssage": " Procurement Management:\n\n  - Handle the full procurement process, including sourcing, evaluating, and purchasing IT hardware, software, and services. \n\n  - Prepare, issue, and evaluate contracts, tenders, and quotations, ensuring compliance with organizational policies and budgetary requirements. \n\n  - Utilize the electronic purchase system to process and track procurement activities efficiently. \n\n  - Build and maintain relationships with vendors to negotiate favorable terms and ensure timely delivery. \n\n- Stock Control and Asset Management:\n\n  - Maintain and update IT inventory, including hardware, software, and consumables. \n\n  - Perform regular audits of stock to ensure accuracy and availability of critical equipment. \n\n  - Coordinate stock replenishment to avoid shortages and ensure operational continuity. \n\n- Data Management and Analysis:\n\n  - Manage and organize IT-related data, including procurement records, inventory logs, and helpdesk performance data. \n\n  - Use Microsoft Excel and other tools to analyze data, generate reports, and identify trends. \n\n  - Provide actionable insights to improve procurement efficiency, optimize stock levels, and enhance IT operations. \n\n- Guideline and Documentation Preparation:\n\n  - Develop and maintain procurement guidelines and workflows to improve operational efficiency. \n\n  - Document IT processes, including procurement procedures, asset management, and helpdesk ticket handling. \n\n  - Provide clear and structured guidelines to team members and stakeholders. \n\n- Helpdesk Hotline and Ticket Dispatching: \n\n  - Serve as the first point of contact for IT-related inquiries via the helpdesk hotline. \n\n  - Log and categorize incoming IT support tickets in the ticketing system. \n\n  - Dispatch tickets to appropriate IT team members and monitor progress to ensure timely resolution. \n\n  - Communicate updates to end-users and provide basic IT support when needed. \n\n- General IT Operational Support: \n\n  - Assist with onboarding and offboarding processes, including hardware provisioning and account setup. \n\n  - Collaborate with IT team members to ensure smooth coordination of departmental tasks and initiatives. ",
+    "id": 1750838278292,
+    "date": "2025-06-25"
+  },
+  {
+    "title": "IT Graduate Trainee Programme - Cyber Security",
+    "company": "Sham Shui Po District",
+    "mssage": "Bachelor’s degree or above in Computer Science, Information Engineering, Information Systems, Data Science related disciplines \nGood command of written and spoken Chinese and English\nGood interpersonal and communication skills\nAble to work independently and under pressure\nPassionate about information technology\nProgramming experience is preferred but not a must\nEmbrace challenge, enjoy team collaboration and an open organization \nEager to learn in a fast-paced and dynamic environment ",
+    "id": 1750838364571,
+    "date": "2025-06-25"
+  },
+  {
+    "title": "Programmer",
+    "company": "ICO Limited",
+    "mssage": "Responsibilities\n\nDevelop a web applications and backend systems\n\nTake part in Development Lifecycle including user requirement collection, analysis, development, SIT, UAT, maintenance, training, and support\n\nTo produce deliverables in different phases of the Development Lifecycle that comply with requirements set forth\n\nRequirements\n\nHigher Diploma or above in Computer Science or equivalent\n\nKnowledge on Java, Spring, SQL, and Web technologies\n\nIANG and fresh graduates with internship/placement experience are definitely an advantage\n\nSelf-driven work attitude\n\nGood verbal and written skills in both Cantonese and English\n\nCandidates with more experiences will be considered as Analyst Programmer",
+    "id": 1750839973671,
+    "date": "2025-06-25"
   }
 ]

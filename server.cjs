@@ -20,12 +20,23 @@ app.get('/api/interviews', (req, res) => {
 });
 
 app.post('/api/interviews', (req, res) => {
-  const newRecord = req.body;
+  let { company, position, date, location, time } = req.body;
+  if (date && date.includes(' ')) {
+    const [d, t] = date.split(' ');
+    date = d;
+    if (!time && t) time = t;
+  }
   fs.readFile(DATA_PATH, 'utf-8', (err, data) => {
     if (err) return res.status(500).json({ error: 'Read error' });
     const records = JSON.parse(data);
-    newRecord.id = Date.now();
-    newRecord.date = newRecord.date || new Date().toISOString().slice(0, 10);
+    const newRecord = {
+      id: Date.now(),
+      company,
+      position,
+      date: date || new Date().toISOString().slice(0, 10),
+      time: time || '',
+      location
+    };
     records.push(newRecord);
     fs.writeFile(DATA_PATH, JSON.stringify(records, null, 2), (err) => {
       if (err) return res.status(500).json({ error: 'Write error' });
@@ -43,6 +54,32 @@ app.delete('/api/interviews/:id', (req, res) => {
     fs.writeFile(DATA_PATH, JSON.stringify(newRecords, null, 2), (err) => {
       if (err) return res.status(500).json({ error: 'Write error' });
       res.json({ success: true });
+    });
+  });
+});
+
+app.put('/api/interviews/:id', (req, res) => {
+  const id = Number(req.params.id);
+  let { company, position, date, location, time } = req.body;
+  if (date && date.includes(' ')) {
+    const [d, t] = date.split(' ');
+    date = d;
+    if (!time && t) time = t;
+  }
+  fs.readFile(DATA_PATH, 'utf-8', (err, data) => {
+    if (err) return res.status(500).json({ error: 'Read error' });
+    let records;
+    try {
+      records = JSON.parse(data);
+    } catch (e) {
+      return res.status(500).json({ error: 'JSON parse error' });
+    }
+    const idx = records.findIndex(r => Number(r.id) === id);
+    if (idx === -1) return res.status(404).json({ error: 'Interview not found' });
+    records[idx] = { ...records[idx], company, position, date, location, time };
+    fs.writeFile(DATA_PATH, JSON.stringify(records, null, 2), (err) => {
+      if (err) return res.status(500).json({ error: 'Write error' });
+      res.json(records[idx]);
     });
   });
 });
@@ -73,6 +110,38 @@ app.post('/api/jobs', (req, res) => {
     fs.writeFile(JOBS_DATA_PATH, JSON.stringify(jobs, null, 2), (err) => {
       if (err) return res.status(500).json({ error: 'Write error' });
       res.json(newJob);
+    });
+  });
+});
+
+app.put('/api/jobs/:id', (req, res) => {
+  const id = Number(req.params.id);
+  const { title, company, mssage } = req.body;
+  fs.readFile(JOBS_DATA_PATH, 'utf-8', (err, data) => {
+    if (err) {
+      // console.error('Read error:', err);
+      return res.status(500).json({ error: 'Read error' });
+    }
+    let jobs;
+    try {
+      jobs = JSON.parse(data);
+    } catch (e) {
+      // console.error('JSON parse error:', e, 'data:', data);
+      return res.status(500).json({ error: 'JSON parse error' });
+    }
+
+    const idx = jobs.findIndex(j => Number(j.id) === id);
+
+    if (idx === -1) {
+      return res.status(404).json({ error: 'Job not found' });
+    }
+    jobs[idx] = { ...jobs[idx], title, company, mssage };
+    fs.writeFile(JOBS_DATA_PATH, JSON.stringify(jobs, null, 2), (err) => {
+      if (err) {
+        // console.error('Write error:', err);
+        return res.status(500).json({ error: 'Write error' });
+      }
+      res.json(jobs[idx]);
     });
   });
 });

@@ -14,6 +14,10 @@ function JobApplyList() {
   const [detailJob, setDetailJob] = useState(null);
   const [showInterviewForm, setShowInterviewForm] = useState(false);
   const [interviewForm, setInterviewForm] = useState({ date: '', time: '', location: '' });
+  const [editMode, setEditMode] = useState(false);
+  const [editForm, setEditForm] = useState({ title: '', company: '', mssage: '' });
+  const [editSaving, setEditSaving] = useState(false);
+  const [editError, setEditError] = useState('');
 
   useEffect(() => {
     fetch('/api/jobs')
@@ -66,7 +70,8 @@ function JobApplyList() {
     const interviewData = {
       company: detailJob.company,
       position: detailJob.title,
-      date: interviewForm.date + (interviewForm.time ? ' ' + interviewForm.time : ''),
+      date: interviewForm.date,
+      time: interviewForm.time,
       location: interviewForm.location
     };
     fetch('/api/interviews', {
@@ -99,10 +104,48 @@ function JobApplyList() {
     setInterviewForm({ date: '', time: '', location: '' });
   };
 
+  // When opening detail modal, also reset edit state
+  const handleOpenDetailJob = (job) => {
+    setDetailJob(job);
+    setEditMode(false);
+    setEditForm({ title: job.title, company: job.company, mssage: job.mssage || '' });
+  };
+
+  // Save edit
+  const handleEditFormChange = (e) => {
+    setEditForm({ ...editForm, [e.target.name]: e.target.value });
+  };
+  const handleEditSave = () => {
+    if (!detailJob) return;
+    setEditSaving(true);
+    setEditError('');
+    fetch(`/api/jobs/${detailJob.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(editForm)
+    })
+      .then(async res => {
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err.error || 'Save failed');
+        }
+        return res.json();
+      })
+      .then((updatedJob) => {
+        setJobs(jobs.map(j => j.id === updatedJob.id ? updatedJob : j));
+        setDetailJob(updatedJob);
+        setEditMode(false);
+      })
+      .catch(e => {
+        setEditError(e.message);
+        alert('Save failed: ' + e.message);
+      })
+      .finally(() => setEditSaving(false));
+  };
+
   return (
     <div className="container-fluid mt-4">
       <div className="row">
-        {/* Left sidebar: filter/search */}
         <div className="col-12 col-md-2 mb-4">
           <div className="card shadow-sm">
             <div className="card-body">
@@ -135,7 +178,6 @@ function JobApplyList() {
             </div>
           </div>
         </div>
-        {/* Center content: job list */}
         <div className="col-12 col-md-7 mb-4">
           <div className="d-flex justify-content-between align-items-center mb-3">
             <h2 className="h4 fw-bold">My Job Apply Records</h2>
@@ -155,28 +197,33 @@ function JobApplyList() {
                 <li
                   key={job.id}
                   className="list-group-item d-flex justify-content-between align-items-center mb-2 rounded shadow-sm border-0 bg-light animate__animated"
-                  style={{ cursor: 'pointer', transition: 'background 0.2s' }}
-                  onClick={() => setDetailJob(job)}
+                  style={{ cursor: 'pointer', transition: 'background 0.2s', height: 80, overflow: 'hidden' }}
+                  onClick={() => handleOpenDetailJob(job)}
                   onMouseEnter={e => e.currentTarget.classList.add('animate__pulse', 'bg-info', 'bg-opacity-25')}
                   onMouseLeave={e => e.currentTarget.classList.remove('animate__pulse', 'bg-info', 'bg-opacity-25')}
                 >
-                  <div>
-                    <div className="fw-semibold">{job.title}</div>
-                    <div className="text-secondary small">{job.company} ・ {job.date}{job.mssage ? ' ・ ' + job.mssage : ''}</div>
+                  <div style={{ flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    <div className="fw-semibold text-truncate">{job.title}</div>
+                    <div className="text-secondary small text-truncate">{job.company} ・ {job.date}{job.mssage ? ' ・ ' + job.mssage : ''}</div>
                   </div>
-                  <button onClick={e => { e.stopPropagation(); handleDelete(job.id); }} className="btn btn-danger btn-sm animate__animated animate__fadeIn" style={{ animationDuration: '0.3s' }} onMouseEnter={e => e.currentTarget.classList.add('animate__pulse')} onAnimationEnd={e => e.currentTarget.classList.remove('animate__pulse')}>Delete</button>
+                  <button
+                    onClick={e => { e.stopPropagation(); handleDelete(job.id); }}
+                    className="btn btn-danger btn-sm animate__animated animate__fadeIn"
+                    style={{ animationDuration: '0.3s', flexShrink: 0, marginLeft: 12 }}
+                    onMouseEnter={e => e.currentTarget.classList.add('animate__pulse')}
+                    onAnimationEnd={e => e.currentTarget.classList.remove('animate__pulse')}
+                  >Delete</button>
                 </li>
               ))}
               {filteredJobs.length === 0 && <li className="list-group-item text-center text-secondary py-4">No records</li>}
             </ul>
           )}
         </div>
-        {/* Right sidebar: calendar */}
         <div className="col-12 col-md-3 mb-4">
           <JobCalendarSidebar />
         </div>
       </div>
-      {/* Modal */}
+      {/*Add Modal */}
       {showModal && (
         <div className="modal fade show d-block" tabIndex="-1" style={{ background: 'rgba(0,0,0,0.3)' }}>
           <div className="modal-dialog">
@@ -219,11 +266,38 @@ function JobApplyList() {
                 <button type="button" className="btn-close" onClick={handleCloseDetailJob}></button>
               </div>
               <div className="modal-body">
-                <div className="mb-2"><strong>Title:</strong> {detailJob.title}</div>
-                <div className="mb-2"><strong>Company:</strong> {detailJob.company}</div>
-                <div className="mb-2"><strong>Date:</strong> {detailJob.date}</div>
-                <div className="mb-2"><strong>Message:</strong><br />{detailJob.mssage ? detailJob.mssage.split('\n').map((line, i) => <span key={i}>{line}<br /></span>) : <span className="text-secondary">(No message)</span>}</div>
-                <button className="btn btn-info mt-3" onClick={() => setShowInterviewForm(true)}>Interview</button>
+                {editMode ? (
+                  <>
+                    <div className="mb-2">
+                      <label className="form-label">Title</label>
+                      <input name="title" value={editForm.title} onChange={handleEditFormChange} className="form-control" />
+                    </div>
+                    <div className="mb-2">
+                      <label className="form-label">Company</label>
+                      <input name="company" value={editForm.company} onChange={handleEditFormChange} className="form-control" />
+                    </div>
+                    <div className="mb-2">
+                      <label className="form-label">Message</label>
+                      <textarea name="mssage" value={editForm.mssage} onChange={handleEditFormChange} className="form-control" rows={3} />
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="mb-2"><strong>Title:</strong> {detailJob.title}</div>
+                    <div className="mb-2"><strong>Company:</strong> {detailJob.company}</div>
+                    <div className="mb-2"><strong>Date:</strong> {detailJob.date}</div>
+                    <div className="mb-2"><strong>Message:</strong><br />{detailJob.mssage ? detailJob.mssage.split('\n').map((line, i) => <span key={i}>{line}<br /></span>) : <span className="text-secondary">(No message)</span>}</div>
+                  </>
+                )}
+                {!editMode && <button className="btn btn-warning me-2" onClick={() => setEditMode(true)}>Edit</button>}
+                {editMode && (
+                  <>
+                    <button className="btn btn-success me-2" onClick={handleEditSave} disabled={editSaving}>{editSaving ? 'Saving...' : 'Save'}</button>
+                    <button className="btn btn-secondary" onClick={() => { setEditMode(false); setEditForm({ title: detailJob.title, company: detailJob.company, mssage: detailJob.mssage || '' }); }}>Cancel</button>
+                  </>
+                )}
+                {editMode && editError && <div className="alert alert-danger py-1 my-2">{editError}</div>}
+                <button className="btn btn-info ms-0" style={{ display: editMode ? 'none' : '' }} onClick={() => setShowInterviewForm(true)}>Interview</button>
                 {showInterviewForm && (
                   <form className="mt-4" onSubmit={handleInterviewSubmit}>
                     <div className="mb-2">

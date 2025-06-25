@@ -1,16 +1,10 @@
 [
   {
-    "company": "Tech Corp",
-    "position": "Frontend Developer",
-    "date": "2025-06-11 01:18",
-    "location": "online",
-    "id": 1750774692688
-  },
-  {
-    "company": "Tech Corp",
-    "position": "Frontend Developer",
-    "date": "2025-06-25 23:28",
-    "location": "online",
-    "id": 1750775079707
+    "company": "ICO Limited",
+    "position": "Programmer",
+    "date": "2025-06-26",
+    "time": "10:30",
+    "location": "online. Link: https://teams.microsoft.com/l/meetup-join/19%3ameeting_MmNlZDExNjYtM2I0Ni00ZmJhLWIyNzEtOWIwOTMzNmUwMTVi%40thread.v2/0?context=%7b%22Tid%22%3a%22fba6c9e2-f080-4700-82a2-685d3b6ca23f%22%2c%22Oid%22%3a%22ea9bcf49-d1b8-45b0-9a8c-a197b7ceac85%22%7d",
+    "id": 1750840603495
   }
 ]
