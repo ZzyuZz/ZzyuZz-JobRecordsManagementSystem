@@ -7,6 +7,6 @@ export default defineConfig({
     proxy: {
       '/api': 'http://localhost:3001' // use localhost for local proxy
     },
-    allowedHosts: ['louishu.zapto.org'] // accept domain name
+    allowedHosts: [''] // accept domain name
   }
 })
